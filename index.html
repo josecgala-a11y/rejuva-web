@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REJUVA | Reciclemos Juntos con Valor</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: #263b2b;
+      background: #f5f8f1;
+      line-height: 1.6;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 10;
+      padding: 22px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #b9df8a;
+    }
+
+    .hero {
+      min-height: 720px;
+      padding: 170px 7% 100px;
+      display: flex;
+      align-items: center;
+      color: white;
+      background:
+        linear-gradient(90deg, rgba(14, 52, 32, .95), rgba(26, 91, 52, .6)),
+        url("https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+    }
+
+    .hero-content {
+      max-width: 700px;
+    }
+
+    .hero small {
+      color: #c5e5a0;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: 1.05;
+      margin: 20px 0;
+    }
+
+    .hero p {
+      font-size: 19px;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #67b84f;
+      color: white;
+      text-decoration: none;
+      padding: 14px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+      margin-right: 10px;
+      border: none;
+    }
+
+    .btn:hover {
+      background: #4b9638;
+    }
+
+    .btn-light {
+      background: transparent;
+      border: 1px solid white;
+    }
+
+    .section {
+      padding: 80px 7%;
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 45px;
+    }
+
+    .section-title h2 {
+      font-size: 38px;
+      color: #235b35;
+      margin-bottom: 15px;
+    }
+
+    .section-title p {
+      color: #657467;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .about img {
+      width: 100%;
+      border-radius: 20px;
+      height: 350px;
+      object-fit: cover;
+    }
+
+    .about h2 {
+      font-size: 38px;
+      color: #235b35;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      margin-bottom: 20px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
+      transition: transform .3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card .icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      color: #235b35;
+      margin-bottom: 10px;
+    }
+
+    .impact {
+      background: #235b35;
+      color: white;
+      text-align: center;
+    }
+
+    .impact h2 {
+      color: white;
+    }
+
+    .impact .section-title p {
+      color: #d9e9d6;
+    }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .number h3 {
+      font-size: 48px;
+      color: #a7db72;
+    }
+
+    .number p {
+      font-size: 16px;
+    }
+
+    .alliance {
+      background: #e3eed9;
+      text-align: center;
+    }
+
+    .alliance p {
+      max-width: 700px;
+      margin: 0 auto 25px;
+    }
+
+    .contact {
+      background: #f5f8f1;
+      text-align: center;
+    }
+
+    .contact-box {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
+    }
+
+    .contact-box p {
+      margin: 12px 0;
+    }
+
+    footer {
+      background: #173d27;
+      color: #dbe8d7;
+      text-align: center;
+      padding: 35px 7%;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        padding: 20px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 140px 7% 80px;
+        min-height: 650px;
+      }
+
+      .about,
+      .cards,
+      .numbers {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 60px 7%;
+      }
+
+      .hero h1 {
+        font-size: 46px;
+      }
+
+      .about h2 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">♻ REJUVA</div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#alianzas">Alianzas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      <small>ASOCIACIÓN RECICLEMOS JUNTOS CON VALOR</small>
+
+      <h1>Reciclando juntos, transformamos nuestro futuro.</h1>
+
+      <p>
+        Trabajamos por la dignificación de los recicladores
+        de base y la construcción de comunidades más sostenibles
+        en Cartagena de Indias.
+      </p>
+
+      <a href="#servicios" class="btn">Conoce nuestros servicios</a>
+      <a href="#contacto" class="btn btn-light">Contáctanos</a>
+    </div>
+  </section>
+
+  <section class="section" id="nosotros">
+    <div class="about">
+      <div>
+        <h2>Conoce a REJUVA</h2>
+
+        <p>
+          La Asociación Reciclemos Juntos con Valor (REJUVA)
+          es una organización sin ánimo de lucro constituida
+          legalmente en el año 2022.
+        </p>
+
+        <p>
+          Nuestro propósito es formalizar y dignificar el trabajo
+          de los recicladores de base, promoviendo el aprovechamiento
+          de residuos y la sensibilización ambiental.
+        </p>
+
+        <a href="#contacto" class="btn">Trabajemos juntos</a>
+      </div>
+
+      <div>
+        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1000&q=85"
+             alt="Reciclaje y cuidado del medio ambiente">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="servicios">
+    <div class="section-title">
+      <h2>Nuestros servicios</h2>
+      <p>
+        Contribuimos al aprovechamiento de residuos y al
+        fortalecimiento de la cultura ambiental.
+      </p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="icon">♻️</div>
+        <h3>Recolección de reciclaje</h3>
+        <p>
+          Promovemos la recolección y el aprovechamiento
+          de residuos sólidos aprovechables.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🌱</div>
+        <h3>Sensibilización ambiental</h3>
+        <p>
+          Realizamos actividades de educación y sensibilización
+          para fomentar prácticas responsables con el ambiente.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🤝</div>
+        <h3>Alianzas institucionales</h3>
+        <p>
+          Buscamos fortalecer la cooperación con empresas
+          e instituciones comprometidas con el desarrollo sostenible.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section impact">
+    <div class="section-title">
+      <h2>Nuestro impacto</h2>
+      <p>
+        Trabajamos para generar valor ambiental y social
+        mediante el reciclaje.
+      </p>
+    </div>
+
+    <div class="numbers">
+      <div class="number">
+        <h3>10</h3>
+        <p>Operarios formalizados</p>
+      </div>
+
+      <div class="number">
+        <h3>2022</h3>
+        <p>Año de constitución</p>
+      </div>
+
+      <div class="number">
+        <h3>100%</h3>
+        <p>Compromiso ambiental</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alliance" id="alianzas">
+    <div class="section-title">
+      <h2>Construyamos alianzas</h2>
+      <p>
+        Invitamos a empresas e instituciones a trabajar
+        junto a REJUVA en iniciativas de reciclaje,
+        aprovechamiento y responsabilidad ambiental.
+      </p>
+    </div>
+
+    <a href="#contacto" class="btn">Quiero una alianza</a>
+  </section>
+
+  <section class="section contact" id="contacto">
+    <div class="section-title">
+      <h2>Contáctanos</h2>
+      <p>
+        ¿Quieres trabajar con REJUVA?
+        Estamos interesados en conocer tu propuesta.
+      </p>
+    </div>
+
+    <div class="contact-box">
+      <h3>Asociación REJUVA</h3>
+
+      <p>📍 Cartagena de Indias, Colombia</p>
+      <p>📧 Correo: agrega-aqui-tu-correo</p>
+      <p>📞 Teléfono: agrega-aqui-tu-numero</p>
+
+      <br>
+
+      <a href="mailto:agrega-aqui-tu-correo" class="btn">
+        Enviar correo
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <h3>♻ REJUVA</h3>
+
+    <p>
+      Reciclemos Juntos con Valor.
+    </p>
+
+    <p>
+      © 2026 REJUVA. Todos los derechos reservados.
+    </p>
+  </footer>
+
+</body>
+</html>
