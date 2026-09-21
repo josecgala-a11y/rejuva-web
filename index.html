@@ -482,7 +482,38 @@
       </div>
     </div>
   </section>
+<!-- GALERÍA REJUVA -->
 
+<section class="galeria" id="galeria">
+
+  <h2>Galería REJUVA</h2>
+
+  <p class="galeria-intro">
+    Conoce parte del trabajo que realizamos por el reciclaje,
+    el aprovechamiento de residuos y el cuidado del medio ambiente.
+  </p>
+
+  <div class="slider">
+
+    <img id="imagenSlider"
+         src="imagenes/REJUVA%201.jpeg"
+         alt="Trabajo de REJUVA">
+
+    <div class="slider-caption" id="textoSlider">
+      Nuestro trabajo
+    </div>
+
+  </div>
+
+  <div class="slider-dots">
+    <span class="slider-dot active"></span>
+    <span class="slider-dot"></span>
+    <span class="slider-dot"></span>
+    <span class="slider-dot"></span>
+    <span class="slider-dot"></span>
+  </div>
+
+</section>
   <section class="section alliance" id="alianzas">
     <div class="section-title">
       <h2>Construyamos alianzas</h2>
@@ -552,6 +583,48 @@
       © 2026 REJUVA. Todos los derechos reservados.
     </p>
   </footer>
+<script>
 
+const imagenes = [
+  "imagenes/REJUVA%201.jpeg",
+  "imagenes/REJUVA%202.jpeg",
+  "imagenes/REJUVA%203.jpeg",
+  "imagenes/REJUVA%204.jpeg",
+  "imagenes/REJUVA%205.jpeg"
+];
+
+const textos = [
+  "Nuestro trabajo",
+  "Reciclaje y aprovechamiento",
+  "Trabajo de nuestros recicladores",
+  "Compromiso con el medio ambiente",
+  "REJUVA: Reciclemos Juntos con Valor"
+];
+
+let indice = 0;
+
+const imagenSlider = document.getElementById("imagenSlider");
+const textoSlider = document.getElementById("textoSlider");
+const puntos = document.querySelectorAll(".slider-dot");
+
+function cambiarImagen() {
+
+  indice++;
+
+  if (indice >= imagenes.length) {
+    indice = 0;
+  }
+
+  imagenSlider.src = imagenes[indice];
+  textoSlider.textContent = textos[indice];
+
+  puntos.forEach((punto, i) => {
+    punto.classList.toggle("active", i === indice);
+  });
+}
+
+setInterval(cambiarImagen, 4000);
+
+</script>
 </body>
 </html>
