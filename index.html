@@ -36,10 +36,19 @@
     }
  
     .logo {
-      font-size: 28px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+}
  
     nav {
       display: flex;
@@ -605,7 +614,10 @@
 <body>
  
   <header>
-    <div class="logo">♻ REJUVA</div>
+     <div class="logo">
+  <img src="imagenes/logo.png" alt="REJUVA">
+  REJUVA
+</div>
  
     <nav>
       <a href="#inicio">Inicio</a>
