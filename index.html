@@ -22,6 +22,16 @@
       background: #f5f8f1;
       line-height: 1.6;
     }
+    #progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, #67b84f, #a7db72);
+  z-index: 1000;
+  transition: width .1s ease-out;
+}
  
     header {
       position: absolute;
@@ -612,6 +622,7 @@
 </head>
  
 <body>
+  <div id="progressBar"></div>
  
   <header>
      <div class="Logo">
@@ -1059,6 +1070,15 @@ function toggleServicios() {
     ? "Ver menos servicios"
     : "Ver más servicios";
 }
+const progressBar = document.getElementById('progressBar');
+function updateProgressBar() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = progress + '%';
+}
+window.addEventListener('scroll', updateProgressBar);
+updateProgressBar();
  
 </script>
 </body>
