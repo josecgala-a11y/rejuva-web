@@ -176,6 +176,29 @@
     .about p {
       margin-bottom: 20px;
     }
+    .reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal-stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: .05s; }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: .15s; }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: .25s; }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: .35s; }
+.reveal-stagger.visible > *:nth-child(5) { transition-delay: .45s; }
  
     /* ===== MISIÓN / VISIÓN / VALORES — TARJETAS QUE GIRAN ===== */
     .mv {
@@ -657,7 +680,7 @@
   </section>
  
   <section class="section" id="nosotros">
-    <div class="about">
+    <div class="about reveal">
       <div>
         <h2>Conoce a REJUVA</h2>
  
@@ -690,7 +713,7 @@
       <p>Toca cada tarjeta para descubrir más.</p>
     </div>
  
-    <div class="flip-grid">
+    <div class="flip-grid reveal-stagger">
  
       <div class="flip-card" onclick="this.classList.toggle('flipped')">
         <div class="flip-card-inner">
@@ -785,7 +808,7 @@
       </p>
     </div>
  
-    <div class="cards">
+    <div class="cards reveal-stagger">
       <div class="card">
         <div class="icon">♻️</div>
         <h3>Recolección de reciclaje</h3>
@@ -846,7 +869,7 @@
       </p>
     </div>
  
-    <div class="numbers">
+    <div class="numbers reveal">
       <div class="number">
         <h3>10</h3>
         <p>Operarios formalizados</p>
@@ -866,7 +889,7 @@
  
   <!-- OBJETIVO MISIONAL -->
   <section class="section objetivo">
-    <div class="objetivo-box">
+    <div class="objetivo-box reveal">
       <h2>Objetivo misional</h2>
       <p>
         Servir de mecanismo de apoyo al Estado, organizaciones no
@@ -969,7 +992,7 @@
       </p>
     </div>
  
-   <div class="contact-box">
+   <div class="contact-box reveal">
   <h3>Asociación Reciclemos Juntos con Valor (REJUVA)</h3>
  
   <p>📍 <strong>Dirección:</strong><br>
@@ -1079,6 +1102,18 @@ function updateProgressBar() {
 }
 window.addEventListener('scroll', updateProgressBar);
 updateProgressBar();
+  const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+  revealObserver.observe(el);
+});
  
 </script>
 </body>
