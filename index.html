@@ -740,6 +740,73 @@
   border: 0;
   display: block;
 }  
+      .material-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 40, 25, .85);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.material-modal.active {
+  display: flex;
+}
+
+.material-modal-content {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  animation: modalPop .3s ease;
+}
+
+@keyframes modalPop {
+  from { transform: scale(.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.material-modal-content img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.material-modal-body {
+  padding: 22px 25px 28px;
+  text-align: center;
+}
+
+.material-modal-body h3 {
+  color: #235b35;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.material-modal-body p {
+  color: #657467;
+  font-size: 15px;
+}
+
+.material-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: white;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  color: #235b35;
+}
     </style>
   </head>
    
@@ -1038,60 +1105,50 @@
     <section class="section materiales" id="materiales">
   <div class="section-">
     <h2>Materiales que reciclamos</h2>
-    <p>Toca cada tarjeta para marcarla. Estos son los materiales que recibimos en REJUVA.</p>
+    <p>Estos son los materiales que recibimos en REJUVA.</p>
   </div>
-  <div class="materiales-grid">
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/carton.jpg" alt="Cartón">
-      <div class="m-name">Cartón</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/papel.jpg" alt="Archivo - papel">
-      <div class="m-name">Archivo - papel</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/pet-cristalino.jpg" alt="Pet Cristalino">
-      <div class="m-name">Pet Cristalino</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/pet-pony.jpg" alt="Pet Amba Pony">
-      <div class="m-name">Pet Amba "Pony"</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/chatarra-hierro.jpg" alt="Chatarra - Hierro">
-      <div class="m-name">Chatarra - Hierro</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/aluminio.jpg" alt="Aluminio">
-      <div class="m-name">Aluminio</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/vidrio.jpg" alt="Vidrio">
-      <div class="m-name">Vidrio</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/pvc.jpg" alt="PVC">
-      <div class="m-name">PVC</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/pasta-gruesa.jpg" alt="Pasta Gruesa">
-      <div class="m-name">Pasta Gruesa</div>
-    </div>
-    <div class="material-card" onclick="this.classList.toggle('selected')">
-      <span class="check">✔️</span>
-      <img src="imagenes/aceite-usado.jpg" alt="Aceite doméstico usado">
-      <div class="m-name">Aceite doméstico usado</div>
-    </div>
+ <div class="materiales-grid">
+  <div class="material-card" onclick="openMaterial('imagenes/carton.jpg','Cartón','Cajas y empaques de cartón limpios y secos.')">
+    <img src="imagenes/carton.jpg" alt="Cartón">
+    <div class="m-name">Cartón</div>
   </div>
+  <div class="material-card" onclick="openMaterial('imagenes/papel.jpg','Archivo - papel','Papel de oficina, archivo, periódico y revistas.')">
+    <img src="imagenes/papel.jpg" alt="Archivo - papel">
+    <div class="m-name">Archivo - papel</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/pet-cristalino.jpg','Pet Cristalino','Botellas plásticas transparentes, como de agua o gaseosa.')">
+    <img src="imagenes/pet-cristalino.jpg" alt="Pet Cristalino">
+    <div class="m-name">Pet Cristalino</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/pet-pony.jpg','Pet Amba &quot;Pony&quot;','Envases plásticos de color ámbar u oscuro.')">
+    <img src="imagenes/pet-pony.jpg" alt="Pet Amba Pony">
+    <div class="m-name">Pet Amba "Pony"</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/chatarra-hierro.jpg','Chatarra - Hierro','Piezas y residuos metálicos de hierro.')">
+    <img src="imagenes/chatarra-hierro.jpg" alt="Chatarra - Hierro">
+    <div class="m-name">Chatarra - Hierro</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/aluminio.jpg','Aluminio','Latas y objetos de aluminio.')">
+    <img src="imagenes/aluminio.jpg" alt="Aluminio">
+    <div class="m-name">Aluminio</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/vidrio.jpg','Vidrio','Botellas y frascos de vidrio.')">
+    <img src="imagenes/vidrio.jpg" alt="Vidrio">
+    <div class="m-name">Vidrio</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/pvc.jpg','PVC','Tubos y accesorios plásticos de PVC.')">
+    <img src="imagenes/pvc.jpg" alt="PVC">
+    <div class="m-name">PVC</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/pasta-gruesa.jpg','Pasta Gruesa','Plástico rígido grueso: baldes, canecas y similares.')">
+    <img src="imagenes/pasta-gruesa.jpg" alt="Pasta Gruesa">
+    <div class="m-name">Pasta Gruesa</div>
+  </div>
+  <div class="material-card" onclick="openMaterial('imagenes/aceite-usado.jpg','Aceite doméstico usado','Aceite de cocina usado, entregado en envase cerrado.')">
+    <img src="imagenes/aceite-usado.jpg" alt="Aceite doméstico usado">
+    <div class="m-name">Aceite doméstico usado</div>
+  </div>
+</div>
 </section>
   <!-- GALERÍA REJUVA -->
    
@@ -1202,6 +1259,16 @@
         © 2026 REJUVA. Todos los derechos reservados.
       </p>
     </footer>
+    <div class="material-modal" id="materialModal" onclick="if(event.target===this) closeMaterial()">
+  <div class="material-modal-content">
+    <button class="material-modal-close" onclick="closeMaterial()">✕</button>
+    <img id="materialModalImg" src="" alt="">
+    <div class="material-modal-body">
+      <h3 id="materialModalName"></h3>
+      <p id="materialModalDesc"></p>
+    </div>
+  </div>
+</div>
     <a class="whatsapp-float"
      href="https://wa.me/573007282113?text=Hola%20REJUVA,%20estoy%20interesado%20en%20sus%20servicios."
      target="_blank"
@@ -1306,7 +1373,19 @@ const countObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.4 });
 document.querySelectorAll('.number h3[data-target]').forEach(el => countObserver.observe(el));    
-   
+   function openMaterial(img, name, desc) {
+  document.getElementById('materialModalImg').src = img;
+  document.getElementById('materialModalImg').alt = name;
+  document.getElementById('materialModalName').textContent = name;
+  document.getElementById('materialModalDesc').textContent = desc;
+  document.getElementById('materialModal').classList.add('active');
+}
+function closeMaterial() {
+  document.getElementById('materialModal').classList.remove('active');
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMaterial();
+});
   </script>
   </body>
   </html>
