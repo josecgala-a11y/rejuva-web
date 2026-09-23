@@ -1,1147 +1,1264 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>REJUVA | Reciclemos Juntos con Valor</title>
- 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
- 
-    html {
-      scroll-behavior: smooth;
-    }
- 
-    body {
-      font-family: Arial, sans-serif;
-      color: #263b2b;
-      background: #f5f8f1;
-      line-height: 1.6;
-    }
-    #progressBar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 4px;
-  width: 0%;
-  background: linear-gradient(90deg, #67b84f, #a7db72);
-  z-index: 1000;
-  transition: width .1s ease-out;
-}
- 
-    header {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      z-index: 10;
-      padding: 22px 7%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: white;
-    }
- 
-    .Logo {
-  font-size: 28px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.Logo img {
-  height: 48px;
-  width: 48px;
-  object-fit: contain;
-}
- 
-    nav {
-      display: flex;
-      gap: 25px;
-    }
- 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
- 
-    nav a:hover {
-      color: #b9df8a;
-    }
- 
-    .hero {
-      min-height: 720px;
-      padding: 170px 7% 100px;
-      display: flex;
-      align-items: center;
-      color: white;
-      background:
-        linear-gradient(90deg, rgba(14, 52, 32, .95), rgba(26, 91, 52, .6)),
-        url("imagenes/jose.jpeg")
-        center/cover;
-    }
- 
-    .hero-content {
-      max-width: 700px;
-    }
- 
-    .hero small {
-      color: #c5e5a0;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
- 
-    .hero h1 {
-      font-size: clamp(42px, 6vw, 76px);
-      line-height: 1.05;
-      margin: 20px 0;
-    }
- 
-    .hero p {
-      font-size: 19px;
-      max-width: 600px;
-      margin-bottom: 30px;
-    }
- 
-    .btn {
-      display: inline-block;
-      background: #67b84f;
-      color: white;
-      text-decoration: none;
-      padding: 14px 25px;
-      border-radius: 30px;
-      font-weight: bold;
-      margin-right: 10px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      font-family: inherit;
-    }
- 
-    .btn:hover {
-      background: #4b9638;
-    }
- 
-    .btn-light {
-      background: transparent;
-      border: 1px solid white;
-    }
- 
-    .section {
-      padding: 80px 7%;
-    }
- 
-    .section-title {
-      text-align: center;
-      max-width: 650px;
-      margin: 0 auto 45px;
-    }
- 
-    .section-title h2 {
-      font-size: 38px;
-      color: #235b35;
-      margin-bottom: 15px;
-    }
- 
-    .section-title p {
-      color: #657467;
-    }
- 
-    .about {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
-      align-items: center;
-    }
- 
-    .about img {
-      width: 100%;
-      border-radius: 20px;
-      height: 350px;
-      object-fit: cover;
-    }
- 
-    .about h2 {
-      font-size: 38px;
-      color: #235b35;
-      margin-bottom: 20px;
-    }
- 
-    .about p {
-      margin-bottom: 20px;
-    }
-    .reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .8s ease, transform .8s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-stagger > * {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity .6s ease, transform .6s ease;
-}
-.reveal-stagger.visible > * {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-stagger.visible > *:nth-child(1) { transition-delay: .05s; }
-.reveal-stagger.visible > *:nth-child(2) { transition-delay: .15s; }
-.reveal-stagger.visible > *:nth-child(3) { transition-delay: .25s; }
-.reveal-stagger.visible > *:nth-child(4) { transition-delay: .35s; }
-.reveal-stagger.visible > *:nth-child(5) { transition-delay: .45s; }
- 
-    /* ===== MISIÓN / VISIÓN / VALORES — TARJETAS QUE GIRAN ===== */
-    .mv {
-      background: #e3eed9;
-    }
- 
-    .flip-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 25px;
-    }
- 
-    .flip-card {
-      background: transparent;
-      height: 280px;
-      perspective: 1200px;
-      cursor: pointer;
-    }
- 
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform .7s cubic-bezier(.4,.2,.2,1);
-      transform-style: preserve-3d;
-    }
- 
-    .flip-card.flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
- 
-    .flip-card-front, .flip-card-back {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      border-radius: 18px;
-      padding: 28px 22px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(34, 75, 42, .12);
-    }
- 
-    .flip-card-front {
-      background: white;
-    }
- 
-    .flip-card-front .icon {
-      font-size: 42px;
-      margin-bottom: 14px;
-    }
- 
-    .flip-card-front h3 {
-      color: #235b35;
-      font-size: 20px;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
- 
-    .flip-card-front .hint {
-      font-size: 13px;
-      color: #8aa084;
-      font-style: italic;
-    }
- 
-    .flip-card-back {
-      background: #235b35;
-      color: white;
-      transform: rotateY(180deg);
-      overflow-y: auto;
-    }
- 
-    .flip-card-back h4 {
-      font-size: 15px;
-      color: #a7db72;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
- 
-    .flip-card-back p {
-      font-size: 14px;
-      line-height: 1.5;
-    }
- 
-    .flip-card-back ul {
-      list-style: none;
-      text-align: left;
-      font-size: 14px;
-    }
- 
-    .flip-card-back ul li {
-      padding: 4px 0 4px 20px;
-      position: relative;
-    }
- 
-    .flip-card-back ul li:before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: #a7db72;
-    }
- 
-    @media (max-width: 800px) {
-      .flip-grid {
-        grid-template-columns: 1fr 1fr;
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REJUVA | Reciclemos Juntos con Valor</title>
+   
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      .flip-card {
-        height: 240px;
+   
+      html {
+        scroll-behavior: smooth;
       }
-    }
- 
-    @media (max-width: 480px) {
-      .flip-grid {
-        grid-template-columns: 1fr;
+   
+      body {
+        font-family: Arial, sans-serif;
+        color: #263b2b;
+        background: #f5f8f1;
+        line-height: 1.6;
       }
-    }
- 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
- 
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 18px;
-      box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
-      transition: transform .3s;
-    }
- 
-    .card:hover {
-      transform: translateY(-5px);
-    }
- 
-    .card .icon {
-      font-size: 40px;
-      margin-bottom: 15px;
-    }
- 
-    .card h3 {
-      color: #235b35;
-      margin-bottom: 10px;
-    }
- 
-    /* ===== SERVICIOS EXTRA — DESPLEGABLE ===== */
-    .servicios-toggle-wrap {
-      text-align: center;
-      margin-top: 35px;
-    }
- 
-    .servicios-toggle-btn {
-      background: white;
-      color: #235b35;
-      border: 2px solid #67b84f;
-      padding: 13px 28px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background .3s, color .3s;
-    }
- 
-    .servicios-toggle-btn:hover {
-      background: #67b84f;
-      color: white;
-    }
- 
-    .servicios-toggle-btn .arrow {
-      transition: transform .3s;
-      display: inline-block;
-    }
- 
-    .servicios-toggle-btn.open .arrow {
-      transform: rotate(180deg);
-    }
- 
-    .servicios-extra {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height .5s ease, opacity .4s ease, margin-top .5s ease;
-      margin-top: 0;
-    }
- 
-    .servicios-extra.open {
-      max-height: 700px;
-      opacity: 1;
-      margin-top: 30px;
-    }
- 
-    .servicios-extra-inner {
-      background: white;
-      border-radius: 18px;
-      padding: 35px 40px;
-      box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
-    }
- 
-    .servicios-extra-inner ul {
-      list-style: none;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px 30px;
-    }
- 
-    .servicios-extra-inner li {
-      padding-left: 26px;
-      position: relative;
-    }
- 
-    .servicios-extra-inner li:before {
-      content: "♻";
-      position: absolute;
-      left: 0;
-      color: #67b84f;
-    }
- 
-    @media (max-width: 800px) {
-      .servicios-extra-inner ul {
-        grid-template-columns: 1fr;
-      }
-    }
- 
-    .impact {
-      background: #235b35;
-      color: white;
-      text-align: center;
-    }
- 
-    .impact h2 {
-      color: white;
-    }
- 
-    .impact .section-title p {
-      color: #d9e9d6;
-    }
- 
-    .numbers {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
- 
-    .number h3 {
-      font-size: 48px;
-      color: #a7db72;
-    }
- 
-    .number p {
-      font-size: 16px;
-    }
- 
-    /* OBJETIVO MISIONAL */
-    .objetivo {
-      background: #f5f8f1;
-    }
- 
-    .objetivo-box {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      padding: 40px 45px;
-      box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
-      text-align: center;
-    }
- 
-    .objetivo-box h2 {
-      color: #235b35;
-      font-size: 32px;
-      margin-bottom: 18px;
-    }
- 
-    /* PROCESOS / TRAYECTORIA */
-    .procesos {
-      background: #e3eed9;
-      text-align: center;
-    }
- 
-    .procesos-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-      text-align: left;
-      margin-top: 10px;
-    }
- 
-    .procesos-grid .card h3 {
-      font-size: 18px;
-    }
- 
-    @media (max-width: 800px) {
-      .about,
-      .cards,
-      .numbers,
-      .procesos-grid {
-        grid-template-columns: 1fr;
-      }
-    }
- 
-    .alliance {
-      background: #e3eed9;
-      text-align: center;
-    }
- 
-    .alliance p {
-      max-width: 700px;
-      margin: 0 auto 25px;
-    }
- 
-    .contact {
-      background: #f5f8f1;
-      text-align: center;
-    }
- 
-    .contact-box {
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 35px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
-    }
- 
-    .contact-box p {
-      margin: 12px 0;
-    }
- 
-    footer {
-      background: #173d27;
-      color: #dbe8d7;
-      text-align: center;
-      padding: 35px 7%;
-    }
- 
-    footer h3 {
-      color: white;
-      margin-bottom: 10px;
-    }
- 
-    @media (max-width: 800px) {
+      #progressBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #67b84f, #a7db72);
+    z-index: 1000;
+    transition: width .1s ease-out;
+  }
+   
       header {
-        padding: 20px;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        padding: 22px 7%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
       }
- 
+   
+      .Logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .Logo img {
+    height: 48px;
+    width: 48px;
+    object-fit: contain;
+  }
+   
       nav {
-        display: none;
+        display: flex;
+        gap: 25px;
       }
- 
+   
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+   
+      nav a:hover {
+        color: #b9df8a;
+      }
+   
       .hero {
-        padding: 140px 7% 80px;
-        min-height: 650px;
+        min-height: 720px;
+        padding: 170px 7% 100px;
+        display: flex;
+        align-items: center;
+        color: white;
+        background:
+          linear-gradient(90deg, rgba(14, 52, 32, .95), rgba(26, 91, 52, .6)),
+          url("imagenes/jose.jpeg")
+          center/cover;
       }
- 
-      .section {
-        padding: 60px 7%;
+   
+      .hero-content {
+        max-width: 700px;
       }
- 
+   
+      .hero small {
+        color: #c5e5a0;
+        font-weight: bold;
+        letter-spacing: 2px;
+      }
+   
       .hero h1 {
-        font-size: 46px;
+        font-size: clamp(42px, 6vw, 76px);
+        line-height: 1.05;
+        margin: 20px 0;
       }
- 
+   
+      .hero p {
+        font-size: 19px;
+        max-width: 600px;
+        margin-bottom: 30px;
+      }
+   
+      .btn {
+        display: inline-block;
+        background: #67b84f;
+        color: white;
+        text-decoration: none;
+        padding: 14px 25px;
+        border-radius: 30px;
+        font-weight: bold;
+        margin-right: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: inherit;
+      }
+   
+      .btn:hover {
+        background: #4b9638;
+      }
+   
+      .btn-light {
+        background: transparent;
+        border: 1px solid white;
+      }
+   
+      .section {
+        padding: 80px 7%;
+      }
+   
+      .section-title {
+        text-align: center;
+        max-width: 650px;
+        margin: 0 auto 45px;
+      }
+   
+      .section-title h2 {
+        font-size: 38px;
+        color: #235b35;
+        margin-bottom: 15px;
+      }
+   
+      .section-title p {
+        color: #657467;
+      }
+   
+      .about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+   
+      .about img {
+        width: 100%;
+        border-radius: 20px;
+        height: 350px;
+        object-fit: cover;
+      }
+   
       .about h2 {
-        font-size: 32px;
+        font-size: 38px;
+        color: #235b35;
+        margin-bottom: 20px;
       }
-    }
-  /* GALERÍA REJUVA */
- 
-.galeria {
-  padding: 80px 7%;
-  background: #f5f8f1;
-  text-align: center;
-}
- 
-.galeria h2 {
-  font-size: 38px;
-  color: #235b35;
-  margin-bottom: 15px;
-}
- 
-.galeria-intro {
-  max-width: 650px;
-  margin: 0 auto 35px;
-  color: #657467;
-}
- 
-.slider {
-  position: relative;
-  max-width: 950px;
-  height: 500px;
-  margin: auto;
-  overflow: hidden;
-  border-radius: 22px;
-  box-shadow: 0 10px 30px rgba(34, 75, 42, .15);
-}
- 
-.slider img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
- 
-.slider-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px;
-  color: white;
-  background: linear-gradient(transparent, rgba(0,0,0,.75));
-  font-size: 20px;
-  font-weight: bold;
-}
- 
-.slider-dots {
-  margin-top: 20px;
-}
- 
-.slider-dot {
-  display: inline-block;
-  width: 11px;
-  height: 11px;
-  margin: 5px;
-  border-radius: 50%;
-  background: #b8c9b2;
-}
- 
-.slider-dot.active {
-  background: #67b84f;
-}
- 
-@media (max-width: 800px) {
+   
+      .about p {
+        margin-bottom: 20px;
+      }
+      .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal-stagger.visible > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger.visible > *:nth-child(1) { transition-delay: .05s; }
+  .reveal-stagger.visible > *:nth-child(2) { transition-delay: .15s; }
+  .reveal-stagger.visible > *:nth-child(3) { transition-delay: .25s; }
+  .reveal-stagger.visible > *:nth-child(4) { transition-delay: .35s; }
+  .reveal-stagger.visible > *:nth-child(5) { transition-delay: .45s; }
+   
+      /* ===== MISIÓN / VISIÓN / VALORES — TARJETAS QUE GIRAN ===== */
+      .mv {
+        background: #e3eed9;
+      }
+   
+      .flip-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+      }
+   
+      .flip-card {
+        background: transparent;
+        height: 280px;
+        perspective: 1200px;
+        cursor: pointer;
+      }
+   
+      .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform .7s cubic-bezier(.4,.2,.2,1);
+        transform-style: preserve-3d;
+      }
+   
+      .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+      }
+   
+      .flip-card-front, .flip-card-back {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 18px;
+        padding: 28px 22px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(34, 75, 42, .12);
+      }
+   
+      .flip-card-front {
+        background: white;
+      }
+   
+      .flip-card-front .icon {
+        font-size: 42px;
+        margin-bottom: 14px;
+      }
+   
+      .flip-card-front h3 {
+        color: #235b35;
+        font-size: 20px;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+   
+      .flip-card-front .hint {
+        font-size: 13px;
+        color: #8aa084;
+        font-style: italic;
+      }
+   
+      .flip-card-back {
+        background: #235b35;
+        color: white;
+        transform: rotateY(180deg);
+        overflow-y: auto;
+      }
+   
+      .flip-card-back h4 {
+        font-size: 15px;
+        color: #a7db72;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+   
+      .flip-card-back p {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+   
+      .flip-card-back ul {
+        list-style: none;
+        text-align: left;
+        font-size: 14px;
+      }
+   
+      .flip-card-back ul li {
+        padding: 4px 0 4px 20px;
+        position: relative;
+      }
+   
+      .flip-card-back ul li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #a7db72;
+      }
+   
+      @media (max-width: 800px) {
+        .flip-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .flip-card {
+          height: 240px;
+        }
+      }
+   
+      @media (max-width: 480px) {
+        .flip-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+   
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+      }
+   
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
+        transition: transform .3s;
+      }
+   
+      .card:hover {
+        transform: translateY(-5px);
+      }
+   
+      .card .icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+      }
+   
+      .card h3 {
+        color: #235b35;
+        margin-bottom: 10px;
+      }
+   
+      /* ===== SERVICIOS EXTRA — DESPLEGABLE ===== */
+      .servicios-toggle-wrap {
+        text-align: center;
+        margin-top: 35px;
+      }
+   
+      .servicios-toggle-btn {
+        background: white;
+        color: #235b35;
+        border: 2px solid #67b84f;
+        padding: 13px 28px;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 15px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background .3s, color .3s;
+      }
+   
+      .servicios-toggle-btn:hover {
+        background: #67b84f;
+        color: white;
+      }
+   
+      .servicios-toggle-btn .arrow {
+        transition: transform .3s;
+        display: inline-block;
+      }
+   
+      .servicios-toggle-btn.open .arrow {
+        transform: rotate(180deg);
+      }
+   
+      .servicios-extra {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height .5s ease, opacity .4s ease, margin-top .5s ease;
+        margin-top: 0;
+      }
+   
+      .servicios-extra.open {
+        max-height: 700px;
+        opacity: 1;
+        margin-top: 30px;
+      }
+   
+      .servicios-extra-inner {
+        background: white;
+        border-radius: 18px;
+        padding: 35px 40px;
+        box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
+      }
+   
+      .servicios-extra-inner ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 30px;
+      }
+   
+      .servicios-extra-inner li {
+        padding-left: 26px;
+        position: relative;
+      }
+   
+      .servicios-extra-inner li:before {
+        content: "♻";
+        position: absolute;
+        left: 0;
+        color: #67b84f;
+      }
+   
+      @media (max-width: 800px) {
+        .servicios-extra-inner ul {
+          grid-template-columns: 1fr;
+        }
+      }
+   
+      .impact {
+        background: #235b35;
+        color: white;
+        text-align: center;
+      }
+   
+      .impact h2 {
+        color: white;
+      }
+   
+      .impact .section-title p {
+        color: #d9e9d6;
+      }
+   
+      .numbers {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+   
+      .number h3 {
+        font-size: 48px;
+        color: #a7db72;
+      }
+   
+      .number p {
+        font-size: 16px;
+      }
+   
+      /* OBJETIVO MISIONAL */
+      .objetivo {
+        background: #f5f8f1;
+      }
+   
+      .objetivo-box {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 40px 45px;
+        box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
+        text-align: center;
+      }
+   
+      .objetivo-box h2 {
+        color: #235b35;
+        font-size: 32px;
+        margin-bottom: 18px;
+      }
+   
+      /* PROCESOS / TRAYECTORIA */
+      .procesos {
+        background: #e3eed9;
+        text-align: center;
+      }
+   
+      .procesos-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        text-align: left;
+        margin-top: 10px;
+      }
+   
+      .procesos-grid .card h3 {
+        font-size: 18px;
+      }
+   
+      @media (max-width: 800px) {
+        .about,
+        .cards,
+        .numbers,
+        .procesos-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+   
+      .alliance {
+        background: #e3eed9;
+        text-align: center;
+      }
+   
+      .alliance p {
+        max-width: 700px;
+        margin: 0 auto 25px;
+      }
+   
+      .contact {
+        background: #f5f8f1;
+        text-align: center;
+      }
+   
+      .contact-box {
+        max-width: 700px;
+        margin: auto;
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(34, 75, 42, .08);
+      }
+   
+      .contact-box p {
+        margin: 12px 0;
+      }
+   
+      footer {
+        background: #173d27;
+        color: #dbe8d7;
+        text-align: center;
+        padding: 35px 7%;
+      }
+   
+      footer h3 {
+        color: white;
+        margin-bottom: 10px;
+      }
+   
+      @media (max-width: 800px) {
+        header {
+          padding: 20px;
+        }
+   
+        nav {
+          display: none;
+        }
+   
+        .hero {
+          padding: 140px 7% 80px;
+          min-height: 650px;
+        }
+   
+        .section {
+          padding: 60px 7%;
+        }
+   
+        .hero h1 {
+          font-size: 46px;
+        }
+   
+        .about h2 {
+          font-size: 32px;
+        }
+      }
+    /* GALERÍA REJUVA */
+   
+  .galeria {
+    padding: 80px 7%;
+    background: #f5f8f1;
+    text-align: center;
+  }
+   
+  .galeria h2 {
+    font-size: 38px;
+    color: #235b35;
+    margin-bottom: 15px;
+  }
+   
+  .galeria-intro {
+    max-width: 650px;
+    margin: 0 auto 35px;
+    color: #657467;
+  }
+   
   .slider {
-    height: 350px;
+    position: relative;
+    max-width: 950px;
+    height: 500px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(34, 75, 42, .15);
   }
-}
-    .whatsapp-float {
-  position: fixed;
-  bottom: 26px;
-  right: 26px;
-  background: #25D366;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,.25);
-  z-index: 999;
-  text-decoration: none;
-  font-size: 32px;
-  animation: pulse 2.2s infinite;
-}
-.whatsapp-float:hover { background: #1ebe57; }
-@keyframes pulse {
-  0%   { box-shadow: 0 6px 20px rgba(0,0,0,.25), 0 0 0 0 rgba(37,211,102,.5); }
-  70%  { box-shadow: 0 6px 20px rgba(0,0,0,.25), 0 0 0 16px rgba(37,211,102,0); }
-  100% { box-shadow: 0 6px 20px rgba(0,0,0,.25), 0 0 0 0 rgba(37,211,102,0); }
-}
-  </style>
-</head>
- 
-<body>
-  <div id="progressBar"></div>
- 
-  <header>
-     <div class="Logo">
-  <img src="imagenes/Logo.png" alt="REJUVA">
-  REJUVA
-</div>
- 
-    <nav>
-      <a href="#inicio">Inicio</a>
-      <a href="#nosotros">Nosotros</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#alianzas">Alianzas</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </header>
- 
-  <section class="hero" id="inicio">
-    <div class="hero-content">
-      <small>ASOCIACIÓN RECICLEMOS JUNTOS CON VALOR</small>
- 
-      <h1>Reciclando juntos, transformamos nuestro futuro.</h1>
- 
-      <p>
-        Trabajamos por la dignificación de los recicladores
-        de base y la construcción de comunidades más sostenibles
-        en Cartagena de Indias.
-      </p>
- 
-      <a href="#servicios" class="btn">Conoce nuestros servicios</a>
-      <a href="#contacto" class="btn btn-light">Contáctanos</a>
-    </div>
-  </section>
- 
-  <section class="section" id="nosotros">
-    <div class="about reveal">
-      <div>
-        <h2>Conoce a REJUVA</h2>
- 
-        <p>
-          La Asociación Reciclemos Juntos con Valor (REJUVA)
-          es una organización sin ánimo de lucro constituida
-          legalmente en el año 2022.
-        </p>
- 
-        <p>
-          Nuestro propósito es formalizar y dignificar el trabajo
-          de los recicladores de base, promoviendo el aprovechamiento
-          de residuos y la sensibilización ambiental.
-        </p>
- 
-        <a href="#contacto" class="btn">Trabajemos juntos</a>
-      </div>
- 
-      <div>
-        <img src="imagenes/REJUVAAA.jpeg" alt="Equipo REJUVA en jornada de reciclaje">
-             
-      </div>
-    </div>
-  </section>
- 
-  <!-- MISIÓN, VISIÓN, PROPUESTA DE VALOR Y VALORES — TARJETAS QUE GIRAN -->
-  <section class="section mv" id="mision-vision">
-    <div class="section-title">
-      <h2>Lo que nos mueve</h2>
-      <p>Toca cada tarjeta para descubrir más.</p>
-    </div>
- 
-    <div class="flip-grid reveal-stagger">
- 
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <div class="icon">🎯</div>
-            <h3>MISIÓN</h3>
-            <span class="hint">Toca para ver más</span>
-          </div>
-          <div class="flip-card-back">
-            <h4>MISIÓN</h4>
-            <p>
-              Gestionar, coordinar y alargar el ciclo de vida útil de los
-              materiales ya usados mediante procesos de recuperación,
-              reciclaje o procesamiento, colaborando con la preservación
-              del medio ambiente y generando oportunidades de sostenimiento
-              económico para nuestros beneficiarios.
-            </p>
-          </div>
-        </div>
-      </div>
- 
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <div class="icon">🔭</div>
-            <h3>VISIÓN</h3>
-            <span class="hint">Toca para ver más</span>
-          </div>
-          <div class="flip-card-back">
-            <h4>VISIÓN 2030</h4>
-            <p>
-              Ser para Cartagena y sus alrededores una entidad reconocida
-              por su gestión en la recolección de residuos sólidos, con
-              liderazgo en reutilización y reciclaje, y un firme compromiso
-              con el desarrollo sostenible.
-            </p>
-          </div>
-        </div>
-      </div>
- 
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <div class="icon">💎</div>
-            <h3>PROPUESTA DE VALOR</h3>
-            <span class="hint">Toca para ver más</span>
-          </div>
-          <div class="flip-card-back">
-            <h4>PROPUESTA DE VALOR</h4>
-            <ul>
-              <li>Proyecto de vida</li>
-              <li>Cultura y recreación</li>
-              <li>Medio ambiente</li>
-              <li>Deporte</li>
-            </ul>
-          </div>
-        </div>
-      </div>
- 
-      <div class="flip-card" onclick="this.classList.toggle('flipped')">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <div class="icon">🤍</div>
-            <h3>VALORES</h3>
-            <span class="hint">Toca para ver más</span>
-          </div>
-          <div class="flip-card-back">
-            <h4>NUESTROS VALORES</h4>
-            <ul>
-              <li>Actuación pública</li>
-              <li>Compromiso con clientes</li>
-              <li>Profesionalidad continuada</li>
-              <li>Diálogo y transparencia</li>
-              <li>Respeto a la legalidad</li>
-              <li>Compromiso con la sostenibilidad</li>
-              <li>Seguridad de personas y bienes</li>
-              <li>Integridad</li>
-            </ul>
-          </div>
-        </div>
-      </div>
- 
-    </div>
-  </section>
- 
-  <section class="section" id="servicios">
-    <div class="section-title">
-      <h2>Nuestros servicios</h2>
-      <p>
-        Contribuimos al aprovechamiento de residuos y al
-        fortalecimiento de la cultura ambiental.
-      </p>
-    </div>
- 
-    <div class="cards reveal-stagger">
-      <div class="card">
-        <div class="icon">♻️</div>
-        <h3>Recolección de reciclaje</h3>
-        <p>
-          Promovemos la recolección y el aprovechamiento
-          de residuos sólidos aprovechables.
-        </p>
-      </div>
- 
-      <div class="card">
-        <div class="icon">🌱</div>
-        <h3>Sensibilización ambiental</h3>
-        <p>
-          Realizamos actividades de educación y sensibilización
-          para fomentar prácticas responsables con el ambiente.
-        </p>
-      </div>
- 
-      <div class="card">
-        <div class="icon">🤝</div>
-        <h3>Alianzas institucionales</h3>
-        <p>
-          Buscamos fortalecer la cooperación con empresas
-          e instituciones comprometidas con el desarrollo sostenible.
-        </p>
-      </div>
-    </div>
- 
-    <div class="servicios-toggle-wrap">
-      <button class="servicios-toggle-btn" id="serviciosBtn" onclick="toggleServicios()">
-        <span id="serviciosBtnText">Ver más servicios</span>
-        <span class="arrow">▾</span>
-      </button>
-    </div>
- 
-    <div class="servicios-extra" id="serviciosExtra">
-      <div class="servicios-extra-inner">
-        <ul>
-          <li>Recolección de materiales aprovechables</li>
-          <li>Sensibilizaciones y/o capacitaciones</li>
-          <li>Actividades educativas y recreativas</li>
-          <li>Certificaciones</li>
-          <li>Instalación de puntos ecológicos</li>
-          <li>Recuperación de zonas verdes</li>
-          <li>Orden y limpieza en el centro de acopio</li>
-          <li>Fortalecimiento en autonomía económica</li>
-        </ul>
-      </div>
-    </div>
-  </section>
- 
-  <section class="section impact">
-    <div class="section-title">
-      <h2>Nuestro impacto</h2>
-      <p>
-        Trabajamos para generar valor ambiental y social
-        mediante el reciclaje.
-      </p>
-    </div>
- 
-    <div class="numbers">
-  <div class="number">
-    <h3 data-target="10" data-suffix="">0</h3>
-    <p>Operarios formalizados</p>
-  </div>
-  <div class="number">
-    <h3 data-target="2022" data-suffix="">0</h3>
-    <p>Año de constitución</p>
-  </div>
-  <div class="number">
-    <h3 data-target="100" data-suffix="%">0%</h3>
-    <p>Compromiso ambiental</p>
-  </div>
-</div>
-  </section>
- 
-  <!-- OBJETIVO MISIONAL -->
-  <section class="section objetivo">
-    <div class="objetivo-box reveal">
-      <h2>Objetivo misional</h2>
-      <p>
-        Servir de mecanismo de apoyo al Estado, organizaciones no
-        gubernamentales, sector privado, comunidades indígenas,
-        afrocolombianas y campesinas, para establecer prioridades en el
-        estudio y manejo de áreas destinadas a la conservación o al
-        abastecimiento de servicios ambientales y comunitarios, orientados
-        a la conservación del ambiente, la diversidad biológica y el
-        proyecto de vida.
-      </p>
-    </div>
-  </section>
- 
-  <!-- PROCESOS / TRAYECTORIA -->
-  <section class="section procesos" id="procesos">
-    <div class="section-title">
-      <h2>Procesos desarrollados</h2>
-      <p>
-        La Asociación Reciclemos Juntos con Valor ha realizado importantes
-        contribuciones al manejo y conservación de los recursos naturales,
-        mediante alianzas estratégicas con entes gubernamentales, no
-        gubernamentales y asociaciones comunitarias.
-      </p>
-    </div>
- 
-    <div class="procesos-grid">
-      <div class="card">
-        <div class="icon">🏛️</div>
-        <h3>Con instituciones públicas</h3>
-        <p>
-          Alianza con la Alcaldía de Cartagena a través de la Escuela de
-          Gobierno y Liderazgo, en el marco de proyectos de formación y
-          fortalecimiento comunitario.
-        </p>
-      </div>
- 
-      <div class="card">
-        <div class="icon">🌎</div>
-        <h3>Con organizaciones y comunidades</h3>
-        <p>
-          Trabajo conjunto con organizaciones no gubernamentales y
-          asociaciones comunitarias para el aprovechamiento de residuos y la
-          conservación ambiental.
-        </p>
-      </div>
-    </div>
-  </section>
- 
-<!-- GALERÍA REJUVA -->
- 
-<section class="galeria" id="galeria">
- 
-  <h2>Galería REJUVA</h2>
- 
-  <p class="galeria-intro">
-    Conoce parte del trabajo que realizamos por el reciclaje,
-    el aprovechamiento de residuos y el cuidado del medio ambiente.
-  </p>
- 
-  <div class="slider">
- 
-    <img id="imagenSlider"
-         src="imagenes/REJUVA%201.jpeg"
-         alt="Trabajo de REJUVA">
- 
-    <div class="slider-caption" id="textoSlider">
-      Nuestro trabajo
-    </div>
- 
-  </div>
- 
-  <div class="slider-dots">
-    <span class="slider-dot active"></span>
-    <span class="slider-dot"></span>
-    <span class="slider-dot"></span>
-    <span class="slider-dot"></span>
-    <span class="slider-dot"></span>
-  </div>
- 
-</section>
-  <section class="section alliance" id="alianzas">
-    <div class="section-title">
-      <h2>Construyamos alianzas</h2>
-      <p>
-        Invitamos a empresas e instituciones a trabajar
-        junto a REJUVA en iniciativas de reciclaje,
-        aprovechamiento y responsabilidad ambiental.
-      </p>
-    </div>
- 
-    <a href="#contacto" class="btn">Quiero una alianza</a>
-  </section>
- 
-  <section class="section contact" id="contacto">
-    <div class="section-title">
-      <h2>Contáctanos</h2>
-      <p>
-        ¿Quieres trabajar con REJUVA?
-        Estamos interesados en conocer tu propuesta.
-      </p>
-    </div>
- 
-   <div class="contact-box reveal">
-  <h3>Asociación Reciclemos Juntos con Valor (REJUVA)</h3>
- 
-  <p>📍 <strong>Dirección:</strong><br>
-  Barrio Nuevo Paraíso<br>
-  Cra. 83 #44-2A 44-44<br>
-  Cartagena de Indias, Colombia</p>
- 
- <p>📞 <strong>Teléfonos:</strong><br>
-<a href="tel:+573045206388">+57 304 520 6388</a><br>
-<a href="tel:+573137171481">+57 313 717 1481</a></p>
- 
- <p>📱 <strong>WhatsApp:</strong><br>
-<a href="https://wa.me/573007282113" target="_blank">
-  +57 300 728 2113
-</a></p>
- 
-  <p>📧 <strong>Correo electrónico:</strong><br>
-  <a href="mailto:reciclemosjcv10@gmail.com">
-    reciclemosjcv10@gmail.com
-  </a></p>
- 
-  <br>
- 
-  <a href="https://wa.me/573007282113?text=Hola%20REJUVA,%20estoy%20interesado%20en%20sus%20servicios%20de%20recolección." 
-   target="_blank" 
-   class="btn">
-  ♻️ Solicitar recolección
-</a>
- 
-  <a href="mailto:reciclemosjcv10@gmail.com" class="btn">
-    📧 Enviar correo
-  </a>
-</div>
-  </section>
- 
-  <footer>
-    <h3>♻ REJUVA</h3>
- 
-    <p>
-      Reciclemos Juntos con Valor.
-    </p>
- 
-    <p>
-      © 2026 REJUVA. Todos los derechos reservados.
-    </p>
-  </footer>
-  <a class="whatsapp-float"
-   href="https://wa.me/573007282113?text=Hola%20REJUVA,%20estoy%20interesado%20en%20sus%20servicios."
-   target="_blank"
-   aria-label="Escríbenos por WhatsApp">
-  💬
-</a>
-<script>
- 
-const imagenes = [
-  "imagenes/REJUVA%201.jpeg",
-  "imagenes/REJUVA%202.jpeg",
-  "imagenes/REJUVA%203.jpeg",
-  "imagenes/REJUVA%204.jpeg",
-  "imagenes/REJUVA%205.jpeg"
-];
- 
-const textos = [
-  "Nuestro trabajo",
-  "Reciclaje y aprovechamiento",
-  "Trabajo de nuestros recicladores",
-  "Compromiso con el medio ambiente",
-  "REJUVA: Reciclemos Juntos con Valor"
-];
- 
-let indice = 0;
- 
-const imagenSlider = document.getElementById("imagenSlider");
-const textoSlider = document.getElementById("textoSlider");
-const puntos = document.querySelectorAll(".slider-dot");
- 
-function cambiarImagen() {
- 
-  indice++;
- 
-  if (indice >= imagenes.length) {
-    indice = 0;
+   
+  .slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
- 
-  imagenSlider.src = imagenes[indice];
-  textoSlider.textContent = textos[indice];
- 
-  puntos.forEach((punto, i) => {
-    punto.classList.toggle("active", i === indice);
-  });
-}
- 
-setInterval(cambiarImagen, 4000);
- 
-function toggleServicios() {
-  const extra = document.getElementById("serviciosExtra");
-  const btn = document.getElementById("serviciosBtn");
-  const btnText = document.getElementById("serviciosBtnText");
- 
-  extra.classList.toggle("open");
-  btn.classList.toggle("open");
- 
-  btnText.textContent = extra.classList.contains("open")
-    ? "Ver menos servicios"
-    : "Ver más servicios";
-}
-const progressBar = document.getElementById('progressBar');
-function updateProgressBar() {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  progressBar.style.width = progress + '%';
-}
-window.addEventListener('scroll', updateProgressBar);
-updateProgressBar();
-  const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
+   
+  .slider-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    color: white;
+    background: linear-gradient(transparent, rgba(0,0,0,.75));
+    font-size: 20px;
+    font-weight: bold;
+  }
+   
+  .slider-dots {
+    margin-top: 20px;
+  }
+   
+  .slider-dot {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    margin: 5px;
+    border-radius: 50%;
+    background: #b8c9b2;
+  }
+   
+  .slider-dot.active {
+    background: #67b84f;
+  }
+   
+  @media (max-width: 800px) {
+    .slider {
+      height: 350px;
     }
-  });
-}, { threshold: 0.15 });
+  }
+      .whatsapp-float {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    background: #25D366;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    z-index: 999;
+    text-decoration: none;
+    font-size: 32px;
+    animation: pulse 2.2s infinite;
+  }
+  .whatsapp-float:hover { background: #1ebe57; }
+  @keyframes pulse {
+    0%   { box-shadow: 0 6px 20px rgba(0,0,0,.25), 0 0 0 0 rgba(37,211,102,.5); }
+    70%  { box-shadow: 0 6px 20px rgba(0,0,0,.25), 0 0 0 16px rgba(37,211,102,0); }
+    100% { box-shadow: 0 6px 20px rgba(0,0,0,.25), 0 0 0 0 rgba(37,211,102,0); }
+  }
+      .materiales {
+    background: #f5f8f1;
+    text-align: center;
+  }
+  .materiales-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .material-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(34, 75, 42, .08);
+    cursor: pointer;
+    transition: transform .25s, box-shadow .25s;
+    position: relative;
+  }
+  .material-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 26px rgba(34, 75, 42, .15);
+  }
+  .material-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    display: block;
+  }
+  .material-card .m-name {
+    font-weight: bold;
+    color: #235b35;
+    font-size: 14px;
+    padding: 12px 10px;
+  }
+  .material-card .check {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: white;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #67b84f;
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity .2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  }
+  .material-card.selected {
+    outline: 3px solid #67b84f;
+  }
+  .material-card.selected .check {
+    opacity: 1;
+  }
+    </style>
+  </head>
+   
+  <body>
+    <div id="progressBar"></div>
+   
+    <header>
+       <div class="Logo">
+    <img src="imagenes/Logo.png" alt="REJUVA">
+    REJUVA
+  </div>
+   
+      <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#alianzas">Alianzas</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </header>
+   
+    <section class="hero" id="inicio">
+      <div class="hero-content">
+        <small>ASOCIACIÓN RECICLEMOS JUNTOS CON VALOR</small>
+   
+        <h1>Reciclando juntos, transformamos nuestro futuro.</h1>
+   
+        <p>
+          Trabajamos por la dignificación de los recicladores
+          de base y la construcción de comunidades más sostenibles
+          en Cartagena de Indias.
+        </p>
+   
+        <a href="#servicios" class="btn">Conoce nuestros servicios</a>
+        <a href="#contacto" class="btn btn-light">Contáctanos</a>
+      </div>
+    </section>
+   
+    <section class="section" id="nosotros">
+      <div class="about reveal">
+        <div>
+          <h2>Conoce a REJUVA</h2>
+   
+          <p>
+            La Asociación Reciclemos Juntos con Valor (REJUVA)
+            es una organización sin ánimo de lucro constituida
+            legalmente en el año 2022.
+          </p>
+   
+          <p>
+            Nuestro propósito es formalizar y dignificar el trabajo
+            de los recicladores de base, promoviendo el aprovechamiento
+            de residuos y la sensibilización ambiental.
+          </p>
+   
+          <a href="#contacto" class="btn">Trabajemos juntos</a>
+        </div>
+   
+        <div>
+          <img src="imagenes/REJUVAAA.jpeg" alt="Equipo REJUVA en jornada de reciclaje">
+               
+        </div>
+      </div>
+    </section>
+   
+    <!-- MISIÓN, VISIÓN, PROPUESTA DE VALOR Y VALORES — TARJETAS QUE GIRAN -->
+    <section class="section mv" id="mision-vision">
+      <div class="section-title">
+        <h2>Lo que nos mueve</h2>
+        <p>Toca cada tarjeta para descubrir más.</p>
+      </div>
+   
+      <div class="flip-grid reveal-stagger">
+   
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="icon">🎯</div>
+              <h3>MISIÓN</h3>
+              <span class="hint">Toca para ver más</span>
+            </div>
+            <div class="flip-card-back">
+              <h4>MISIÓN</h4>
+              <p>
+                Gestionar, coordinar y alargar el ciclo de vida útil de los
+                materiales ya usados mediante procesos de recuperación,
+                reciclaje o procesamiento, colaborando con la preservación
+                del medio ambiente y generando oportunidades de sostenimiento
+                económico para nuestros beneficiarios.
+              </p>
+            </div>
+          </div>
+        </div>
+   
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="icon">🔭</div>
+              <h3>VISIÓN</h3>
+              <span class="hint">Toca para ver más</span>
+            </div>
+            <div class="flip-card-back">
+              <h4>VISIÓN 2030</h4>
+              <p>
+                Ser para Cartagena y sus alrededores una entidad reconocida
+                por su gestión en la recolección de residuos sólidos, con
+                liderazgo en reutilización y reciclaje, y un firme compromiso
+                con el desarrollo sostenible.
+              </p>
+            </div>
+          </div>
+        </div>
+   
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="icon">💎</div>
+              <h3>PROPUESTA DE VALOR</h3>
+              <span class="hint">Toca para ver más</span>
+            </div>
+            <div class="flip-card-back">
+              <h4>PROPUESTA DE VALOR</h4>
+              <ul>
+                <li>Proyecto de vida</li>
+                <li>Cultura y recreación</li>
+                <li>Medio ambiente</li>
+                <li>Deporte</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+   
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="icon">🤍</div>
+              <h3>VALORES</h3>
+              <span class="hint">Toca para ver más</span>
+            </div>
+            <div class="flip-card-back">
+              <h4>NUESTROS VALORES</h4>
+              <ul>
+                <li>Actuación pública</li>
+                <li>Compromiso con clientes</li>
+                <li>Profesionalidad continuada</li>
+                <li>Diálogo y transparencia</li>
+                <li>Respeto a la legalidad</li>
+                <li>Compromiso con la sostenibilidad</li>
+                <li>Seguridad de personas y bienes</li>
+                <li>Integridad</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+   
+      </div>
+    </section>
+   
+    <section class="section" id="servicios">
+      <div class="section-title">
+        <h2>Nuestros servicios</h2>
+        <p>
+          Contribuimos al aprovechamiento de residuos y al
+          fortalecimiento de la cultura ambiental.
+        </p>
+      </div>
+   
+      <div class="cards reveal-stagger">
+        <div class="card">
+          <div class="icon">♻️</div>
+          <h3>Recolección de reciclaje</h3>
+          <p>
+            Promovemos la recolección y el aprovechamiento
+            de residuos sólidos aprovechables.
+          </p>
+        </div>
+   
+        <div class="card">
+          <div class="icon">🌱</div>
+          <h3>Sensibilización ambiental</h3>
+          <p>
+            Realizamos actividades de educación y sensibilización
+            para fomentar prácticas responsables con el ambiente.
+          </p>
+        </div>
+   
+        <div class="card">
+          <div class="icon">🤝</div>
+          <h3>Alianzas institucionales</h3>
+          <p>
+            Buscamos fortalecer la cooperación con empresas
+            e instituciones comprometidas con el desarrollo sostenible.
+          </p>
+        </div>
+      </div>
+   
+      <div class="servicios-toggle-wrap">
+        <button class="servicios-toggle-btn" id="serviciosBtn" onclick="toggleServicios()">
+          <span id="serviciosBtnText">Ver más servicios</span>
+          <span class="arrow">▾</span>
+        </button>
+      </div>
+   
+      <div class="servicios-extra" id="serviciosExtra">
+        <div class="servicios-extra-inner">
+          <ul>
+            <li>Recolección de materiales aprovechables</li>
+            <li>Sensibilizaciones y/o capacitaciones</li>
+            <li>Actividades educativas y recreativas</li>
+            <li>Certificaciones</li>
+            <li>Instalación de puntos ecológicos</li>
+            <li>Recuperación de zonas verdes</li>
+            <li>Orden y limpieza en el centro de acopio</li>
+            <li>Fortalecimiento en autonomía económica</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+   
+    <section class="section impact">
+      <div class="section-title">
+        <h2>Nuestro impacto</h2>
+        <p>
+          Trabajamos para generar valor ambiental y social
+          mediante el reciclaje.
+        </p>
+      </div>
+   
+      <div class="numbers">
+    <div class="number">
+      <h3 data-target="10" data-suffix="">0</h3>
+      <p>Operarios formalizados</p>
+    </div>
+    <div class="number">
+      <h3 data-target="2022" data-suffix="">0</h3>
+      <p>Año de constitución</p>
+    </div>
+    <div class="number">
+      <h3 data-target="100" data-suffix="%">0%</h3>
+      <p>Compromiso ambiental</p>
+    </div>
+  </div>
+    </section>
+   
+    <!-- OBJETIVO MISIONAL -->
+    <section class="section objetivo">
+      <div class="objetivo-box reveal">
+        <h2>Objetivo misional</h2>
+        <p>
+          Servir de mecanismo de apoyo al Estado, organizaciones no
+          gubernamentales, sector privado, comunidades indígenas,
+          afrocolombianas y campesinas, para establecer prioridades en el
+          estudio y manejo de áreas destinadas a la conservación o al
+          abastecimiento de servicios ambientales y comunitarios, orientados
+          a la conservación del ambiente, la diversidad biológica y el
+          proyecto de vida.
+        </p>
+      </div>
+    </section>
+   
+    <!-- PROCESOS / TRAYECTORIA -->
+    <section class="section procesos" id="procesos">
+      <div class="section-title">
+        <h2>Procesos desarrollados</h2>
+        <p>
+          La Asociación Reciclemos Juntos con Valor ha realizado importantes
+          contribuciones al manejo y conservación de los recursos naturales,
+          mediante alianzas estratégicas con entes gubernamentales, no
+          gubernamentales y asociaciones comunitarias.
+        </p>
+      </div>
+   
+      <div class="procesos-grid">
+        <div class="card">
+          <div class="icon">🏛️</div>
+          <h3>Con instituciones públicas</h3>
+          <p>
+            Alianza con la Alcaldía de Cartagena a través de la Escuela de
+            Gobierno y Liderazgo, en el marco de proyectos de formación y
+            fortalecimiento comunitario.
+          </p>
+        </div>
+   
+        <div class="card">
+          <div class="icon">🌎</div>
+          <h3>Con organizaciones y comunidades</h3>
+          <p>
+            Trabajo conjunto con organizaciones no gubernamentales y
+            asociaciones comunitarias para el aprovechamiento de residuos y la
+            conservación ambiental.
+          </p>
+        </div>
+      </div>
+    </section>
 
-document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
-  revealObserver.observe(el);
-});
- 
-</script>
-</body>
-</html>
+    <section class="section materiales" id="materiales">
+  <div class="section-title">
+    <h2>Materiales que reciclamos</h2>
+    <p>Toca cada tarjeta para marcarla. Estos son los materiales que recibimos en REJUVA.</p>
+  </div>
+  <div class="materiales-grid">
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/carton.jpg" alt="Cartón">
+      <div class="m-name">Cartón</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/papel.jpg" alt="Archivo - papel">
+      <div class="m-name">Archivo - papel</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/pet-cristalino.jpg" alt="Pet Cristalino">
+      <div class="m-name">Pet Cristalino</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/pet-pony.jpg" alt="Pet Amba Pony">
+      <div class="m-name">Pet Amba "Pony"</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/chatarra-hierro.jpg" alt="Chatarra - Hierro">
+      <div class="m-name">Chatarra - Hierro</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/aluminio.jpg" alt="Aluminio">
+      <div class="m-name">Aluminio</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/vidrio.jpg" alt="Vidrio">
+      <div class="m-name">Vidrio</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/pvc.jpg" alt="PVC">
+      <div class="m-name">PVC</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/pasta-gruesa.jpg" alt="Pasta Gruesa">
+      <div class="m-name">Pasta Gruesa</div>
+    </div>
+    <div class="material-card" onclick="this.classList.toggle('selected')">
+      <span class="check">✔️</span>
+      <img src="imagenes/aceite-usado.jpg" alt="Aceite doméstico usado">
+      <div class="m-name">Aceite doméstico usado</div>
+    </div>
+  </div>
+</section>
+  <!-- GALERÍA REJUVA -->
+   
+  <section class="galeria" id="galeria">
+   
+    <h2>Galería REJUVA</h2>
+   
+    <p class="galeria-intro">
+      Conoce parte del trabajo que realizamos por el reciclaje,
+      el aprovechamiento de residuos y el cuidado del medio ambiente.
+    </p>
+   
+    <div class="slider">
+   
+      <img id="imagenSlider"
+           src="imagenes/REJUVA%201.jpeg"
+           alt="Trabajo de REJUVA">
+   
+      <div class="slider-caption" id="textoSlider">
+        Nuestro trabajo
+      </div>
+   
+    </div>
+   
+    <div class="slider-dots">
+      <span class="slider-dot active"></span>
+      <span class="slider-dot"></span>
+      <span class="slider-dot"></span>
+      <span class="slider-dot"></span>
+      <span class="slider-dot"></span>
+    </div>
+   
+  </section>
+    <section class="section alliance" id="alianzas">
+      <div class="section-title">
+        <h2>Construyamos alianzas</h2>
+        <p>
+          Invitamos a empresas e instituciones a trabajar
+          junto a REJUVA en iniciativas de reciclaje,
+          aprovechamiento y responsabilidad ambiental.
+        </p>
+      </div>
+   
+      <a href="#contacto" class="btn">Quiero una alianza</a>
+    </section>
+   
+    <section class="section contact" id="contacto">
+      <div class="section-title">
+        <h2>Contáctanos</h2>
+        <p>
+          ¿Quieres trabajar con REJUVA?
+          Estamos interesados en conocer tu propuesta.
+        </p>
+      </div>
+   
+     <div class="contact-box reveal">
+    <h3>Asociación Reciclemos Juntos con Valor (REJUVA)</h3>
+   
+    <p>📍 <strong>Dirección:</strong><br>
+    Barrio Nuevo Paraíso<br>
+    Cra. 83 #44-2A 44-44<br>
+    Cartagena de Indias, Colombia</p>
+   
+   <p>📞 <strong>Teléfonos:</strong><br>
+  <a href="tel:+573045206388">+57 304 520 6388</a><br>
+  <a href="tel:+573137171481">+57 313 717 1481</a></p>
+   
+   <p>📱 <strong>WhatsApp:</strong><br>
+  <a href="https://wa.me/573007282113" target="_blank">
+    +57 300 728 2113
+  </a></p>
+   
+    <p>📧 <strong>Correo electrónico:</strong><br>
+    <a href="mailto:reciclemosjcv10@gmail.com">
+      reciclemosjcv10@gmail.com
+    </a></p>
+   
+    <br>
+   
+    <a href="https://wa.me/573007282113?text=Hola%20REJUVA,%20estoy%20interesado%20en%20sus%20servicios%20de%20recolección." 
+     target="_blank" 
+     class="btn">
+    ♻️ Solicitar recolección
+  </a>
+   
+    <a href="mailto:reciclemosjcv10@gmail.com" class="btn">
+      📧 Enviar correo
+    </a>
+  </div>
+    </section>
+   
+    <footer>
+      <h3>♻ REJUVA</h3>
+   
+      <p>
+        Reciclemos Juntos con Valor.
+      </p>
+   
+      <p>
+        © 2026 REJUVA. Todos los derechos reservados.
+      </p>
+    </footer>
+    <a class="whatsapp-float"
+     href="https://wa.me/573007282113?text=Hola%20REJUVA,%20estoy%20interesado%20en%20sus%20servicios."
+     target="_blank"
+     aria-label="Escríbenos por WhatsApp">
+    💬
+  </a>
+  <script>
+   
+  const imagenes = [
+    "imagenes/REJUVA%201.jpeg",
+    "imagenes/REJUVA%202.jpeg",
+    "imagenes/REJUVA%203.jpeg",
+    "imagenes/REJUVA%204.jpeg",
+    "imagenes/REJUVA%205.jpeg"
+  ];
+   
+  const textos = [
+    "Nuestro trabajo",
+    "Reciclaje y aprovechamiento",
+    "Trabajo de nuestros recicladores",
+    "Compromiso con el medio ambiente",
+    "REJUVA: Reciclemos Juntos con Valor"
+  ];
+   
+  let indice = 0;
+   
+  const imagenSlider = document.getElementById("imagenSlider");
+  const textoSlider = document.getElementById("textoSlider");
+  const puntos = document.querySelectorAll(".slider-dot");
+   
+  function cambiarImagen() {
+   
+    indice++;
+   
+    if (indice >= imagenes.length) {
+      indice = 0;
+    }
+   
+    imagenSlider.src = imagenes[indice];
+    textoSlider.textContent = textos[indice];
+   
+    puntos.forEach((punto, i) => {
+      punto.classList.toggle("active", i === indice);
+    });
+  }
+   
+  setInterval(cambiarImagen, 4000);
+   
+  function toggleServicios() {
+    const extra = document.getElementById("serviciosExtra");
+    const btn = document.getElementById("serviciosBtn");
+    const btnText = document.getElementById("serviciosBtnText");
+   
+    extra.classList.toggle("open");
+    btn.classList.toggle("open");
+   
+    btnText.textContent = extra.classList.contains("open")
+      ? "Ver menos servicios"
+      : "Ver más servicios";
+  }
+  const progressBar = document.getElementById('progressBar');
+  function updateProgressBar() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = progress + '%';
+  }
+  window.addEventListener('scroll', updateProgressBar);
+  updateProgressBar();
+    const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+    revealObserver.observe(el);
+  });
+   
+  </script>
+  </body>
+  </html>
